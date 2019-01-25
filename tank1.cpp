@@ -69,7 +69,7 @@ void InitMap()
 }
 void cover()
 {
-    SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
+    SDL_SetRenderDrawColor(gRenderer, 0, 255, 255, 255);
     SDL_RenderClear(gRenderer);
     SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
     for (int i = 0; i < 6; i++)
@@ -122,13 +122,14 @@ bool ShowTank(SDL_Event e, bool *quit)
         degree1 += 0.2;
     if (state[SDL_SCANCODE_UP])
     {
-        gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
-        gtank1.x -= 0.1 * cos(-degree1 * 3.14 / 180);
+        if(gtank1.x)
+        gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
+        gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
     }
     if (state[SDL_SCANCODE_DOWN])
     {
-        gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
-        gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
+        gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
+        gtank1.x -= 0.1 * cos(-degree1 * 3.14 / 180);
     }
     if (state[SDL_SCANCODE_A])
         degree2 -= 0.2;
