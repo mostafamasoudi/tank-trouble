@@ -20,8 +20,10 @@ SDL_Texture *gTexture1 = NULL;
 SDL_Texture *gTexture2 = NULL;
 SDL_Rect gRect1 = {1, 1, 1, 1};
 SDL_Rect gRect2 = {1, 1, 1, 1};
-double degree = 0;
+double degree1 = 0;
+double degree2 = 0;
 SDL_Event e;
+const Uint8 *state = SDL_GetKeyboardState(NULL);
 
 void Init()
 {
@@ -31,7 +33,6 @@ void Init()
     gTexture1 = SDL_CreateTextureFromSurface(gRenderer, gSurface);
     gSurface = IMG_Load("tank2.png");
     gTexture2 = SDL_CreateTextureFromSurface(gRenderer, gSurface);
-    //   gRect = {800, 200, 100, 100};
     gtank1.x = 100 * (rand() % 9) + 50;
     gtank1.y = 100 * (rand() % 6) + 50;
     do
@@ -114,29 +115,39 @@ void map()
 
 bool ShowTank(SDL_Event e, bool *quit)
 {
-   // while (SDL_PollEvent(&e) != 0 && !*quit)
+    SDL_PollEvent(&e);
+    //while (SDL_PollEvent(&e) != 0 && !*quit)
     {
-        SDL_PollEvent(&e);
         if (e.type == SDL_KEYDOWN)
         {
-            switch (e.key.keysym.sym)
+            if (state[SDL_SCANCODE_LEFT])
+                degree1 -= 2;
+            if (state[SDL_SCANCODE_RIGHT])
+                degree1 += 2;
+            if (state[SDL_SCANCODE_UP])
             {
-            case SDLK_LEFT:
-                degree -= 1;
-                break;
-            case SDLK_RIGHT:
-                degree += 1;
-                break;
-            case SDLK_UP:
-                gtank1.y -= sin(-degree * 3.14 / 180);
-                gtank1.x += cos(-degree * 3.14 / 180);
-
-                break;
-            case SDLK_DOWN:
-                gtank1.y += sin(-degree * 3.14 / 180);
-                gtank1.x -= cos(-degree * 3.14 / 180);
+                gtank1.y -= 2 * sin(-degree1 * 3.14 / 180);
+                gtank1.x += 2 * cos(-degree1 * 3.14 / 180);
             }
-           
+            if (state[SDL_SCANCODE_DOWN])
+            {
+                gtank1.y += 2 * sin(-degree1 * 3.14 / 180);
+                gtank1.x -= 2 * cos(-degree1 * 3.14 / 180);
+            }
+            if(state[SDL_SCANCODE_A])
+                degree2 -= 2;
+            if (state[SDL_SCANCODE_D])
+                degree2 += 2;
+            if (state[SDL_SCANCODE_W])
+            {
+                gtank2.y -= 2 * sin(-degree2 * 3.14 / 180);
+                gtank2.x += 2 * cos(-degree2 * 3.14 / 180);
+            }
+            if (state[SDL_SCANCODE_S])
+            {
+                gtank2.y += 2 * sin(-degree2 * 3.14 / 180);
+                gtank2.x -= 2 * cos(-degree2 * 3.14 / 180);
+            }
         }
         if (e.type == SDL_QUIT)
         {
@@ -144,9 +155,8 @@ bool ShowTank(SDL_Event e, bool *quit)
         }
     }
     gRect1 = {gtank1.x, gtank1.y, 50, 50};
-
+    gRect2 = {gtank2.x, gtank2.y, 50, 50};
     return true;
-
     //SDL_RenderCopyEx(gRenderer,gTexture1,NULL,&gRect1,degree,NULL,SDL_FLIP_NONE);
 }
 int main()
@@ -170,8 +180,9 @@ int main()
         {
             cover();
             map();
-            // SDL_RenderCopy(gRenderer, gTexture1, NULL, &gRect1);
-            SDL_RenderCopyEx(gRenderer, gTexture1, NULL, &gRect1, degree, NULL, SDL_FLIP_NONE);
+            SDL_RenderCopyEx(gRenderer, gTexture1, NULL, &gRect1, degree1, NULL, SDL_FLIP_NONE);
+            SDL_RenderCopyEx(gRenderer, gTexture2, NULL, &gRect2, degree2, NULL, SDL_FLIP_NONE);
+
             SDL_RenderPresent(gRenderer);
         } while (ShowTank(e, quit) && !*quit);
     }
