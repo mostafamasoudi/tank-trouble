@@ -116,48 +116,42 @@ void map()
 bool ShowTank(SDL_Event e, bool *quit)
 {
     SDL_PollEvent(&e);
-    //while (SDL_PollEvent(&e) != 0 && !*quit)
+    if (state[SDL_SCANCODE_LEFT])
+        degree1 -= 0.2;
+    if (state[SDL_SCANCODE_RIGHT])
+        degree1 += 0.2;
+    if (state[SDL_SCANCODE_UP])
     {
-        if (e.type == SDL_KEYDOWN)
-        {
-            if (state[SDL_SCANCODE_LEFT])
-                degree1 -= 2;
-            if (state[SDL_SCANCODE_RIGHT])
-                degree1 += 2;
-            if (state[SDL_SCANCODE_UP])
-            {
-                gtank1.y -= 2 * sin(-degree1 * 3.14 / 180);
-                gtank1.x += 2 * cos(-degree1 * 3.14 / 180);
-            }
-            if (state[SDL_SCANCODE_DOWN])
-            {
-                gtank1.y += 2 * sin(-degree1 * 3.14 / 180);
-                gtank1.x -= 2 * cos(-degree1 * 3.14 / 180);
-            }
-            if(state[SDL_SCANCODE_A])
-                degree2 -= 2;
-            if (state[SDL_SCANCODE_D])
-                degree2 += 2;
-            if (state[SDL_SCANCODE_W])
-            {
-                gtank2.y -= 2 * sin(-degree2 * 3.14 / 180);
-                gtank2.x += 2 * cos(-degree2 * 3.14 / 180);
-            }
-            if (state[SDL_SCANCODE_S])
-            {
-                gtank2.y += 2 * sin(-degree2 * 3.14 / 180);
-                gtank2.x -= 2 * cos(-degree2 * 3.14 / 180);
-            }
-        }
-        if (e.type == SDL_QUIT)
-        {
-            *quit = true;
-        }
+        gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
+        gtank1.x -= 0.1 * cos(-degree1 * 3.14 / 180);
+    }
+    if (state[SDL_SCANCODE_DOWN])
+    {
+        gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
+        gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
+    }
+    if (state[SDL_SCANCODE_A])
+        degree2 -= 0.2;
+    if (state[SDL_SCANCODE_D])
+        degree2 += 0.2;
+    if (state[SDL_SCANCODE_W])
+    {
+        gtank2.y -= 0.1 * sin(-degree2 * 3.14 / 180);
+        gtank2.x += 0.1 * cos(-degree2 * 3.14 / 180);
+    }
+    if (state[SDL_SCANCODE_S])
+    {
+        gtank2.y += 0.1 * sin(-degree2 * 3.14 / 180);
+        gtank2.x -= 0.1 * cos(-degree2 * 3.14 / 180);
+    }
+    if (e.type == SDL_QUIT)
+    {
+        *quit = true;
     }
     gRect1 = {gtank1.x, gtank1.y, 50, 50};
     gRect2 = {gtank2.x, gtank2.y, 50, 50};
     return true;
-    //SDL_RenderCopyEx(gRenderer,gTexture1,NULL,&gRect1,degree,NULL,SDL_FLIP_NONE);
+    
 }
 int main()
 {
@@ -165,7 +159,6 @@ int main()
     Init();
     bool *quit = new bool;
     *quit = false;
-    //SDL_Event e;
     InitMap();
     while (!*quit)
     {
@@ -182,10 +175,8 @@ int main()
             map();
             SDL_RenderCopyEx(gRenderer, gTexture1, NULL, &gRect1, degree1, NULL, SDL_FLIP_NONE);
             SDL_RenderCopyEx(gRenderer, gTexture2, NULL, &gRect2, degree2, NULL, SDL_FLIP_NONE);
-
             SDL_RenderPresent(gRenderer);
         } while (ShowTank(e, quit) && !*quit);
     }
-
     return 0;
 }
