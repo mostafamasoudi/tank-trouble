@@ -159,8 +159,8 @@ bool ShowTank(SDL_Event e, bool *quit)
         {
             gtank2.bullet++;
             gball2[gtank1.bullet - 1].value = 1;
-            gball2[gtank1.bullet - 1].x = gtank1.x + (25 * cos(-degree1 * 3.14 / 180));
-            gball2[gtank1.bullet - 1].y = gtank1.y - (25 * sin(-degree1 * 3.14 / 180));
+            gball2[gtank1.bullet - 1].x = gtank2.x + (25 * cos(-degree1 * 3.14 / 180));
+            gball2[gtank1.bullet - 1].y = gtank2.y - (25 * sin(-degree1 * 3.14 / 180));
             gball2[gtank1.bullet - 1].xdelta = 0.1 * cos(-degree1 * 3.14 / 180);
             gball2[gtank1.bullet - 1].ydelta = 0.1 * sin(-degree1 * 3.14 / 180);
         }
