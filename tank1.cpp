@@ -46,10 +46,10 @@ void InitMap()
         for (int j = 0; j < 9; j++)
         {
             gwallh[i][j].random();
-            gwallh[i][j].xstart = 6 + (j * 100);
+            gwallh[i][j].xstart = 6 + (j * 100) - 1;
             gwallh[i][j].ystart = 6 + ((i + 1) * 100);
             gwallh[i][j].yend = 6 + ((i + 1) * 100);
-            gwallh[i][j].xend = 6 + ((j + 1) * 100);
+            gwallh[i][j].xend = 6 + ((j + 1) * 100) + 2;
         }
     }
     for (int i = 0; i < 6; i++)
@@ -59,8 +59,8 @@ void InitMap()
             gwallv[i][j].random();
             gwallv[i][j].xstart = 6 + ((j + 1) * 100);
             gwallv[i][j].xend = 6 + ((j + 1) * 100);
-            gwallv[i][j].ystart = 6 + (i * 100);
-            gwallv[i][j].yend = 6 + ((i + 1) * 100);
+            gwallv[i][j].ystart = 6 + (i * 100) - 1;
+            gwallv[i][j].yend = 6 + ((i + 1) * 100) + 2;
         }
     }
 }
@@ -112,20 +112,126 @@ void map()
 
 bool ShowTank(SDL_Event e, bool *quit)
 {
+    gtank1.ipos = (gtank1.y - 6) / 100;
+    gtank1.jpos = (gtank1.x - 6) / 100;
+    gtank2.ipos = (gtank2.y - 6) / 100;
+    gtank2.jpos = (gtank2.y - 6) / 100;
+
     SDL_PollEvent(&e);
     if (state[SDL_SCANCODE_LEFT])
         degree1 -= 0.2;
     if (state[SDL_SCANCODE_RIGHT])
         degree1 += 0.2;
+    if (degree1 > 180)
+        degree1 = -180;
+    if (degree1 < -180)
+        degree1 = 180;
+    if (degree2 > 180)
+        degree2 = -180;
+    if (degree2 < -180)
+        degree2 = 180;
+
     if (state[SDL_SCANCODE_UP])
     {
-        gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
-        gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
+
+        if (degree1 > -90 && degree1 < 90)
+        {
+            if (gtank1.jpos == 8)
+            {
+                if (int(gtank1.x + 18 - 6 - 1) % 100 > 98)
+                {
+                    gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
+                }
+                else
+                {
+                    gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
+                    gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
+                }
+            }
+            else if (((gwallv[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.x + 18 - 6) % 100 > 98)))
+            {
+                gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
+            }
+            else
+            {
+                gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
+            }
+        }
+        else
+        {
+            if (gtank1.jpos == 0)
+            {
+                if (int(gtank1.x - 18 - 6) % 100 < 1)
+                {
+                    gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
+                }
+                else
+                {
+                    gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
+                    gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
+                }
+            }
+            else if ((gwallv[gtank1.ipos][gtank1.jpos - 1].flag == 1 && int(gtank1.x - 18 - 6) % 100 < 4))
+            {
+                gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
+            }
+            else
+            {
+                gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
+            }
+        }
     }
     if (state[SDL_SCANCODE_DOWN])
     {
-        gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
-        gtank1.x -= 0.1 * cos(-degree1 * 3.14 / 180);
+        if (degree1 > -90 && degree1 < 90)
+        {
+            if (gtank1.jpos == 0)
+            {
+                if (int(gtank1.x - 18 - 6) % 100 < 1)
+                    gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
+                else
+                {
+                    gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
+                    gtank1.x -= 0.1 * cos(-degree1 * 3.14 / 180);
+                }
+            }
+            else if ((gwallv[gtank1.ipos][gtank1.jpos - 1].flag == 1 && int(gtank1.x - 18 - 6) % 100 < 4))
+            {
+                gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
+            }
+            else
+            {
+                gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.x -= 0.1 * cos(-degree1 * 3.14 / 180);
+            }
+        }
+        else
+        {
+            if (gtank1.jpos == 8)
+            {
+                if (int(gtank1.x + 18 - 6-1) % 100 > 98)
+                {
+                    gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
+                }
+                else
+                {
+
+                    gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
+                    gtank1.x -= 0.1 * cos(-degree1 * 3.14 / 180);
+                }
+            }
+            else if (gwallv[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.x + 18 - 6) % 100 > 98)
+            {
+                gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
+            }
+            else
+            {
+                gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.x -= 0.1 * cos(-degree1 * 3.14 / 180);
+            }
+        }
     }
     if (state[SDL_SCANCODE_A])
         degree2 -= 0.2;
@@ -153,16 +259,16 @@ bool ShowTank(SDL_Event e, bool *quit)
             gball1[gtank1.bullet - 1].ydelta = 0.1 * sin(-degree1 * 3.14 / 180);
         }
     }
-    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_2 )
+    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_2)
     {
         if (gtank2.bullet <= 5)
         {
             gtank2.bullet++;
             gball2[gtank1.bullet - 1].value = 1;
-            gball2[gtank1.bullet - 1].x = gtank2.x + (25 * cos(-degree1 * 3.14 / 180));
-            gball2[gtank1.bullet - 1].y = gtank2.y - (25 * sin(-degree1 * 3.14 / 180));
-            gball2[gtank1.bullet - 1].xdelta = 0.1 * cos(-degree1 * 3.14 / 180);
-            gball2[gtank1.bullet - 1].ydelta = 0.1 * sin(-degree1 * 3.14 / 180);
+            gball2[gtank1.bullet - 1].x = gtank2.x + (25 * cos(-degree2 * 3.14 / 180));
+            gball2[gtank1.bullet - 1].y = gtank2.y - (25 * sin(-degree2 * 3.14 / 180));
+            gball2[gtank1.bullet - 1].xdelta = 0.1 * cos(-degree2 * 3.14 / 180);
+            gball2[gtank1.bullet - 1].ydelta = 0.1 * sin(-degree2 * 3.14 / 180);
         }
     }
     if (e.type == SDL_QUIT)
@@ -180,6 +286,7 @@ int main()
     bool *quit = new bool;
     *quit = false;
     InitMap();
+
     while (!*quit)
     {
         while (SDL_PollEvent(&e) != 0)
@@ -199,7 +306,7 @@ int main()
             {
                 if (gball1[i].value == 1)
                     gball1[i].move();
-                if(gball2[i].value==1)
+                if (gball2[i].value == 1)
                     gball2[i].move();
             }
             SDL_RenderPresent(gRenderer);
