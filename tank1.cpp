@@ -9,11 +9,10 @@
 #include <ctime>
 #include <cmath>
 #include "tank.h"
-
+#include "ball.h"
 using namespace std;
 const int SCREEN_WIDTH = 1012;
 const int SCREEN_HEIGHT = 612;
-SDL_Renderer *gRenderer = NULL;
 SDL_Window *gWindow = NULL;
 SDL_Surface *gSurface = NULL;
 SDL_Texture *gTexture1 = NULL;
@@ -24,10 +23,9 @@ double degree1 = 0;
 double degree2 = 0;
 SDL_Event e;
 const Uint8 *state = SDL_GetKeyboardState(NULL);
-
 void Init()
 {
-    gWindow = SDL_CreateWindow("tank trouble", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    gWindow = SDL_CreateWindow("tank trouble", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
     gSurface = IMG_Load("tank1.png");
     gTexture1 = SDL_CreateTextureFromSurface(gRenderer, gSurface);
@@ -43,7 +41,6 @@ void Init()
 }
 void InitMap()
 {
-
     for (int i = 0; i < 5; i++)
     {
         for (int j = 0; j < 9; j++)
@@ -87,7 +84,7 @@ void map()
     {
         for (int j = 0; j < 9; j++)
         {
-            if (gwallh[i][j].flag == true)
+            if (gwallh[i][j].flag == 1)
             {
                 for (int k = 1; k <= 4; k++)
                 {
@@ -102,7 +99,7 @@ void map()
     {
         for (int j = 0; j < 8; j++)
         {
-            if (gwallv[i][j].flag == true)
+            if (gwallv[i][j].flag == 1)
             {
                 for (int k = 1; k <= 4; k++)
                 {
@@ -122,7 +119,6 @@ bool ShowTank(SDL_Event e, bool *quit)
         degree1 += 0.2;
     if (state[SDL_SCANCODE_UP])
     {
-        if(gtank1.x)
         gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
         gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
     }
@@ -145,14 +141,37 @@ bool ShowTank(SDL_Event e, bool *quit)
         gtank2.y += 0.1 * sin(-degree2 * 3.14 / 180);
         gtank2.x -= 0.1 * cos(-degree2 * 3.14 / 180);
     }
+    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_KP_0)
+    {
+        if (gtank1.bullet <= 5)
+        {
+            gtank1.bullet++;
+            gball1[gtank1.bullet - 1].value = 1;
+            gball1[gtank1.bullet - 1].x = gtank1.x + (25 * cos(-degree1 * 3.14 / 180));
+            gball1[gtank1.bullet - 1].y = gtank1.y - (25 * sin(-degree1 * 3.14 / 180));
+            gball1[gtank1.bullet - 1].xdelta = 0.1 * cos(-degree1 * 3.14 / 180);
+            gball1[gtank1.bullet - 1].ydelta = 0.1 * sin(-degree1 * 3.14 / 180);
+        }
+    }
+    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_2 )
+    {
+        if (gtank2.bullet <= 5)
+        {
+            gtank2.bullet++;
+            gball2[gtank1.bullet - 1].value = 1;
+            gball2[gtank1.bullet - 1].x = gtank1.x + (25 * cos(-degree1 * 3.14 / 180));
+            gball2[gtank1.bullet - 1].y = gtank1.y - (25 * sin(-degree1 * 3.14 / 180));
+            gball2[gtank1.bullet - 1].xdelta = 0.1 * cos(-degree1 * 3.14 / 180);
+            gball2[gtank1.bullet - 1].ydelta = 0.1 * sin(-degree1 * 3.14 / 180);
+        }
+    }
     if (e.type == SDL_QUIT)
     {
         *quit = true;
     }
-    gRect1 = {gtank1.x, gtank1.y, 50, 50};
-    gRect2 = {gtank2.x, gtank2.y, 50, 50};
+    gRect1 = {gtank1.x - 25, gtank1.y - 25, 50, 50};
+    gRect2 = {gtank2.x - 25, gtank2.y - 25, 50, 50};
     return true;
-    
 }
 int main()
 {
@@ -176,6 +195,13 @@ int main()
             map();
             SDL_RenderCopyEx(gRenderer, gTexture1, NULL, &gRect1, degree1, NULL, SDL_FLIP_NONE);
             SDL_RenderCopyEx(gRenderer, gTexture2, NULL, &gRect2, degree2, NULL, SDL_FLIP_NONE);
+            for (int i = 0; i < 6; i++)
+            {
+                if (gball1[i].value == 1)
+                    gball1[i].move();
+                if(gball2[i].value==1)
+                    gball2[i].move();
+            }
             SDL_RenderPresent(gRenderer);
         } while (ShowTank(e, quit) && !*quit);
     }
