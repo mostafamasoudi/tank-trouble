@@ -636,20 +636,12 @@ bool ShowTank(SDL_Event e, bool *quit)
         if (gtank2.bullet <= 5)
         {
             gtank2.bullet++;
-<<<<<<< HEAD
-            gball2[gtank1.bullet - 1].value = 1;
-            gball2[gtank1.bullet - 1].x = gtank2.x + (25 * cos(-degree2 * 3.14 / 180));
-            gball2[gtank1.bullet - 1].y = gtank2.y - (25 * sin(-degree2 * 3.14 / 180));
-            gball2[gtank1.bullet - 1].xdelta = 0.1 * cos(-degree2 * 3.14 / 180);
-            gball2[gtank1.bullet - 1].ydelta = 0.1 * sin(-degree2 * 3.14 / 180);
-=======
             gball2[gtank2.bullet - 1].lastTimeball = SDL_GetTicks();
             gball2[gtank2.bullet - 1].value = 1;
             gball2[gtank2.bullet - 1].x = gtank2.x + (25 * cos(-degree2 * 3.14 / 180));
             gball2[gtank2.bullet - 1].y = gtank2.y - (25 * sin(-degree2 * 3.14 / 180));
             gball2[gtank2.bullet - 1].xdelta = 0.1 * cos(-degree2 * 3.14 / 180);
             gball2[gtank2.bullet - 1].ydelta = 0.1 * sin(-degree2 * 3.14 / 180);
->>>>>>> 9b1c0cf0b1e4302763f991548e21401a8beac1f8
         }
     }
     if (e.type == SDL_QUIT)
@@ -726,11 +718,7 @@ int main()
     bool *quit = new bool;
     *quit = false;
     InitMap();
-<<<<<<< HEAD
-
-=======
     Uint32 lasertime = 0;
->>>>>>> 9b1c0cf0b1e4302763f991548e21401a8beac1f8
     while (!*quit)
     {
         while (SDL_PollEvent(&e) != 0)

@@ -4,11 +4,8 @@ class tank
     float x, y,dx,dy;
     int bullet = 0;
     bool lose = false;
-<<<<<<< HEAD
-    int score=0;
     int ipos,jpos;
     
-=======
     int score = 0;
     char number[4] = "";
     void touchlaser()
@@ -38,6 +35,5 @@ class tank
             n /= 10;
         }
     }
->>>>>>> 9b1c0cf0b1e4302763f991548e21401a8beac1f8
 
 } gtank1, gtank2;
