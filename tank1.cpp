@@ -19,6 +19,7 @@ SDL_Texture *gTexture1 = NULL;
 SDL_Texture *gTexture11 = NULL;
 SDL_Texture *gTexture2 = NULL;
 SDL_Texture *gTexture22 = NULL;
+SDL_Texture *glaser = NULL;
 SDL_Texture *gMissile = NULL;
 SDL_Rect gRect1 = {1, 1, 1, 1};
 SDL_Rect gRect2 = {1, 1, 1, 1};
@@ -27,8 +28,10 @@ SDL_Rect gRect4 = {935, 500, 50, 50};
 SDL_Rect gRect33 = {945, 130, 40, 40};
 SDL_Rect gRect44 = {945, 420, 40, 40};
 SDL_Rect missilerect = {1, 1, 1, 1};
+SDL_Rect laserrect = {1, 1, 1, 1};
 double degree1 = 0;
 double degree2 = 0;
+bool laserflag = false;
 SDL_Event e;
 TTF_Font *font = NULL;
 SDL_Color color = {200, 100, 255};
@@ -43,6 +46,9 @@ void Init()
     gTexture2 = SDL_CreateTextureFromSurface(gRenderer, gSurface);
     gSurface = IMG_Load("Missile.png");
     gMissile = SDL_CreateTextureFromSurface(gRenderer, gSurface);
+    gtank1.x = 100 * (rand() % 9) + 50;
+    gSurface = IMG_Load("laser.png");
+    glaser = SDL_CreateTextureFromSurface(gRenderer, gSurface);
     gtank1.x = 100 * (rand() % 9) + 50;
     gtank1.y = 100 * (rand() % 6) + 50;
     do
@@ -179,13 +185,22 @@ bool ShowTank(SDL_Event e, bool *quit)
             gball2[gtank2.bullet - 1].ydelta = 0.1 * sin(-degree2 * 3.14 / 180);
         }
     }
-        if (e.type == SDL_QUIT)
-        {
-            *quit = true;
-        }
+    if (e.type == SDL_QUIT)
+    {
+        *quit = true;
+    }
     gRect1 = {gtank1.x - 25, gtank1.y - 25, 50, 50};
     gRect2 = {gtank2.x - 25, gtank2.y - 25, 50, 50};
     return true;
+}
+void lasericon(Uint32 lasertime)
+{
+
+    if (SDL_GetTicks() >= 3000 + lasertime && laserflag==false)
+    {
+        laserflag = true;
+        laserrect = {(rand() % 9) * 100 + 45, (rand() % 6) * 100 + 45, 25, 25};
+    }
 }
 void showscore()
 {
@@ -244,6 +259,7 @@ int main()
     bool *quit = new bool;
     *quit = false;
     InitMap();
+    Uint32 lasertime = 0;
     while (!*quit)
     {
         while (SDL_PollEvent(&e) != 0)
@@ -263,6 +279,9 @@ int main()
                 SDL_RenderCopyEx(gRenderer, gTexture2, NULL, &gRect2, degree2, NULL, SDL_FLIP_NONE);
             SDL_RenderCopyEx(gRenderer, gTexture1, NULL, &gRect3, 0, NULL, SDL_FLIP_NONE);
             SDL_RenderCopyEx(gRenderer, gTexture2, NULL, &gRect4, 0, NULL, SDL_FLIP_NONE);
+            lasericon(lasertime);
+            if (laserflag == true)
+                SDL_RenderCopy(gRenderer, glaser, NULL, &laserrect);
             showscore();
             for (int i = 0; i < 6; i++)
             {

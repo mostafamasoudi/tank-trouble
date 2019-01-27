@@ -6,6 +6,10 @@ class tank
     bool lose = false;
     int score = 0;
     char number[4] = "";
+    void touchlaser()
+    {
+    
+    }
     char convert(int score, char number[4])
     {
         for (int s = 0; s < 3; s++)
