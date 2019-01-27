@@ -110,6 +110,407 @@ void map()
     }
 }
 
+void TankCollision()
+{
+    bool base = false;
+    if (degree1 >= -90 && degree1 < 0)
+    {
+        if (gtank1.jpos == 8 && gtank1.ipos == 0)
+        {
+            if (int(gtank1.x + 18 - 6 - 1) % 100 > 98)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (int(gtank1.y - 18 - 6) % 100 < 1)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.jpos == 8)
+        {
+            if (int(gtank1.x + 18 - 6 - 1) % 100 > 98)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos - 1][gtank1.jpos].flag == 1 && int(gtank1.y - 18 - 6) % 100 < 4)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.ipos == 0)
+        {
+            if (int(gtank1.y - 18 - 6) % 100 < 1)
+            {
+                gtank1.dy = 0;
+                gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                base = true;
+            }
+            if (gwallv[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.x + 18 - 6) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dx = 0;
+                }
+                else
+                {
+                    gtank1.dx = 0;
+                    gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else
+        {
+            if (gwallv[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.x + 18 - 6) % 100 > 98)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos - 1][gtank1.jpos].flag == 1 && int(gtank1.y - 18 - 6) % 100 < 4)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        if (base == false)
+        {
+            gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+            gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+        }
+
+        gtank1.x += gtank1.dx;
+        gtank1.y -= gtank1.dy;
+    }
+    else if (degree1 >= 0 && degree1 < 90)
+    {
+        if (gtank1.jpos == 8 && gtank1.ipos == 5)
+        {
+            if (int(gtank1.x + 18 - 6 - 1) % 100 > 98)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (int(gtank1.y + 18 - 6 - 1) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.jpos == 8)
+        {
+            if (int(gtank1.x + 18 - 6 - 1) % 100 > 98)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.y + 18 - 6 ) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.ipos == 5)
+        {
+            if (int(gtank1.y + 18 - 6-1 ) % 100 > 98)
+            {
+                gtank1.dy = 0;
+                gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                base = true;
+            }
+            if (gwallv[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.x + 18 - 6) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dx = 0;
+                }
+                else
+                {
+                    gtank1.dx = 0;
+                    gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else
+        {
+            if (gwallv[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.x + 18 - 6) % 100 > 98)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.y + 18 - 6) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        if (base == false)
+        {
+            gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+            gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+        }
+
+        gtank1.x += gtank1.dx;
+        gtank1.y -= gtank1.dy;
+    }
+    else if (degree1 >= 90)
+    {
+        if (gtank1.jpos == 0 && gtank1.ipos == 5)
+        {
+            if (int(gtank1.x - 18 - 6) % 100 < 1)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (int(gtank1.y + 18 - 6-1) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.jpos == 0)
+        {
+            if (int(gtank1.x - 18 - 6) % 100 < 1)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.y + 18 - 6) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.ipos == 5)
+        {
+            if (int(gtank1.y + 18 - 6-1) % 100 > 98)
+            {
+                gtank1.dy = 0;
+                gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                base = true;
+            }
+            if (gwallv[gtank1.ipos][gtank1.jpos - 1].flag == 1 && int(gtank1.x - 18 - 6 - 1) % 100 < 4)
+            {
+                if (base == true)
+                {
+                    gtank1.dx = 0;
+                }
+                else
+                {
+                    gtank1.dx = 0;
+                    gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else
+        {
+            if (gwallv[gtank1.ipos][gtank1.jpos - 1].flag == 1 && int(gtank1.x - 18 - 6) % 100 < 4)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.y + 18 - 6) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        if (base == false)
+        {
+            gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+            gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+        }
+
+        gtank1.x += gtank1.dx;
+        gtank1.y -= gtank1.dy;
+    }
+    else if (degree1 < -90)
+    {
+        if (gtank1.jpos == 0 && gtank1.ipos == 0)
+        {
+            if (int(gtank1.x - 18 - 6) % 100 < 1)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (int(gtank1.y - 18 - 6) % 100 < 1)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.jpos == 0)
+        {
+            if (int(gtank1.x - 18 - 6) % 100 < 1)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos - 1][gtank1.jpos].flag == 1 && int(gtank1.y - 18 - 6) % 100 < 4)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.ipos == 0)
+        {
+            if (int(gtank1.y - 18 - 6) % 100 < 1)
+            {
+                gtank1.dy = 0;
+                gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                base = true;
+            }
+            if (gwallv[gtank1.ipos][gtank1.jpos - 1].flag == 1 && int(gtank1.x - 18 - 6 - 1) % 100 < 4)
+            {
+                if (base == true)
+                {
+                    gtank1.dx = 0;
+                }
+                else
+                {
+                    gtank1.dx = 0;
+                    gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else
+        {
+            if (gwallv[gtank1.ipos][gtank1.jpos - 1].flag == 1 && int(gtank1.x - 18 - 6) % 100 < 4)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos - 1][gtank1.jpos].flag == 1 && int(gtank1.y - 18 - 6) % 100 < 4)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        if (base == false)
+        {
+            gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+            gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+        }
+
+        gtank1.x += gtank1.dx;
+        gtank1.y -= gtank1.dy;
+    }
+}
+
 bool ShowTank(SDL_Event e, bool *quit)
 {
     gtank1.ipos = (gtank1.y - 6) / 100;
@@ -133,55 +534,7 @@ bool ShowTank(SDL_Event e, bool *quit)
 
     if (state[SDL_SCANCODE_UP])
     {
-
-        if (degree1 > -90 && degree1 < 90)
-        {
-            if (gtank1.jpos == 8)
-            {
-                if (int(gtank1.x + 18 - 6 - 1) % 100 > 98)
-                {
-                    gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
-                }
-                else
-                {
-                    gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
-                    gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
-                }
-            }
-            else if (((gwallv[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.x + 18 - 6) % 100 > 98)))
-            {
-                gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
-            }
-            else
-            {
-                gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
-                gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
-            }
-        }
-        else
-        {
-            if (gtank1.jpos == 0)
-            {
-                if (int(gtank1.x - 18 - 6) % 100 < 1)
-                {
-                    gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
-                }
-                else
-                {
-                    gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
-                    gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
-                }
-            }
-            else if ((gwallv[gtank1.ipos][gtank1.jpos - 1].flag == 1 && int(gtank1.x - 18 - 6) % 100 < 4))
-            {
-                gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
-            }
-            else
-            {
-                gtank1.y -= 0.1 * sin(-degree1 * 3.14 / 180);
-                gtank1.x += 0.1 * cos(-degree1 * 3.14 / 180);
-            }
-        }
+        TankCollision();
     }
     if (state[SDL_SCANCODE_DOWN])
     {
@@ -211,7 +564,7 @@ bool ShowTank(SDL_Event e, bool *quit)
         {
             if (gtank1.jpos == 8)
             {
-                if (int(gtank1.x + 18 - 6-1) % 100 > 98)
+                if (int(gtank1.x + 18 - 6 - 1) % 100 > 98)
                 {
                     gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
                 }
