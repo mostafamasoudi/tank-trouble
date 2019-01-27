@@ -16,12 +16,25 @@ const int SCREEN_HEIGHT = 612;
 SDL_Window *gWindow = NULL;
 SDL_Surface *gSurface = NULL;
 SDL_Texture *gTexture1 = NULL;
+SDL_Texture *gTexture11 = NULL;
 SDL_Texture *gTexture2 = NULL;
+SDL_Texture *gTexture22 = NULL;
+SDL_Texture *glaser = NULL;
+SDL_Texture *gMissile = NULL;
 SDL_Rect gRect1 = {1, 1, 1, 1};
 SDL_Rect gRect2 = {1, 1, 1, 1};
+SDL_Rect gRect3 = {935, 35, 50, 50};
+SDL_Rect gRect4 = {935, 500, 50, 50};
+SDL_Rect gRect33 = {945, 130, 40, 40};
+SDL_Rect gRect44 = {945, 420, 40, 40};
+SDL_Rect missilerect = {1, 1, 1, 1};
+SDL_Rect laserrect = {1, 1, 1, 1};
 double degree1 = 0;
 double degree2 = 0;
+bool laserflag = false;
 SDL_Event e;
+TTF_Font *font = NULL;
+SDL_Color color = {200, 100, 255};
 const Uint8 *state = SDL_GetKeyboardState(NULL);
 void Init()
 {
@@ -31,6 +44,11 @@ void Init()
     gTexture1 = SDL_CreateTextureFromSurface(gRenderer, gSurface);
     gSurface = IMG_Load("tank2.png");
     gTexture2 = SDL_CreateTextureFromSurface(gRenderer, gSurface);
+    gSurface = IMG_Load("Missile.png");
+    gMissile = SDL_CreateTextureFromSurface(gRenderer, gSurface);
+    gtank1.x = 100 * (rand() % 9) + 50;
+    gSurface = IMG_Load("laser.png");
+    glaser = SDL_CreateTextureFromSurface(gRenderer, gSurface);
     gtank1.x = 100 * (rand() % 9) + 50;
     gtank1.y = 100 * (rand() % 6) + 50;
     do
@@ -605,6 +623,7 @@ bool ShowTank(SDL_Event e, bool *quit)
         if (gtank1.bullet <= 5)
         {
             gtank1.bullet++;
+            gball1[gtank1.bullet - 1].lastTimeball = SDL_GetTicks();
             gball1[gtank1.bullet - 1].value = 1;
             gball1[gtank1.bullet - 1].x = gtank1.x + (25 * cos(-degree1 * 3.14 / 180));
             gball1[gtank1.bullet - 1].y = gtank1.y - (25 * sin(-degree1 * 3.14 / 180));
@@ -617,11 +636,20 @@ bool ShowTank(SDL_Event e, bool *quit)
         if (gtank2.bullet <= 5)
         {
             gtank2.bullet++;
+<<<<<<< HEAD
             gball2[gtank1.bullet - 1].value = 1;
             gball2[gtank1.bullet - 1].x = gtank2.x + (25 * cos(-degree2 * 3.14 / 180));
             gball2[gtank1.bullet - 1].y = gtank2.y - (25 * sin(-degree2 * 3.14 / 180));
             gball2[gtank1.bullet - 1].xdelta = 0.1 * cos(-degree2 * 3.14 / 180);
             gball2[gtank1.bullet - 1].ydelta = 0.1 * sin(-degree2 * 3.14 / 180);
+=======
+            gball2[gtank2.bullet - 1].lastTimeball = SDL_GetTicks();
+            gball2[gtank2.bullet - 1].value = 1;
+            gball2[gtank2.bullet - 1].x = gtank2.x + (25 * cos(-degree2 * 3.14 / 180));
+            gball2[gtank2.bullet - 1].y = gtank2.y - (25 * sin(-degree2 * 3.14 / 180));
+            gball2[gtank2.bullet - 1].xdelta = 0.1 * cos(-degree2 * 3.14 / 180);
+            gball2[gtank2.bullet - 1].ydelta = 0.1 * sin(-degree2 * 3.14 / 180);
+>>>>>>> 9b1c0cf0b1e4302763f991548e21401a8beac1f8
         }
     }
     if (e.type == SDL_QUIT)
@@ -632,14 +660,77 @@ bool ShowTank(SDL_Event e, bool *quit)
     gRect2 = {gtank2.x - 25, gtank2.y - 25, 50, 50};
     return true;
 }
+void lasericon(Uint32 lasertime)
+{
+
+    if (SDL_GetTicks() >= 3000 + lasertime && laserflag==false)
+    {
+        laserflag = true;
+        laserrect = {(rand() % 9) * 100 + 45, (rand() % 6) * 100 + 45, 25, 25};
+    }
+}
+void showscore()
+{
+    SDL_RenderCopy(gRenderer, gTexture11, NULL, &gRect33);
+    SDL_RenderCopy(gRenderer, gTexture22, NULL, &gRect44);
+}
+void lose()
+{
+    if (gtank1.lose == true || gtank2.lose == true)
+    {
+        currentTime = SDL_GetTicks();
+        if (currentTime - lastTime > 6000)
+        {
+            if (gtank1.lose == false)
+            {
+                gtank1.score++;
+                gtank1.convert(gtank1.score, gtank1.number);
+                gSurface = TTF_RenderText_Solid(font, gtank1.number, color);
+                gTexture11 = SDL_CreateTextureFromSurface(gRenderer, gSurface);
+            }
+            else if (gtank2.lose == false)
+            {
+                gtank2.score++;
+                gtank2.convert(gtank2.score, gtank2.number);
+                gSurface = TTF_RenderText_Solid(font, gtank2.number, color);
+                gTexture22 = SDL_CreateTextureFromSurface(gRenderer, gSurface);
+            }
+            gtank1.lose = false;
+            gtank2.lose = false;
+            gtank1.x = 100 * (rand() % 9) + 50;
+            gtank1.y = 100 * (rand() % 6) + 50;
+            do
+            {
+                gtank2.x = 100 * (rand() % 9) + 50;
+                gtank2.y = 100 * (rand() % 6) + 50;
+            } while (gtank1.x == gtank2.x && gtank1.y == gtank2.y);
+            InitMap();
+            for (int i = 0; i < 6; i++)
+            {
+                gball1[i].value = 0;
+                gball2[i].value = 0;
+            }
+            gtank1.bullet = 0;
+            gtank2.bullet = 0;
+            currentTime = 0;
+            lastTime = 0;
+        }
+    }
+}
 int main()
 {
     srand(time(0));
+    TTF_Init();
+    font = TTF_OpenFont("Bloomsburg DEMO.ttf", 20);
     Init();
     bool *quit = new bool;
     *quit = false;
     InitMap();
+<<<<<<< HEAD
 
+=======
+    Uint32 lasertime = 0;
+>>>>>>> 9b1c0cf0b1e4302763f991548e21401a8beac1f8
     while (!*quit)
     {
         while (SDL_PollEvent(&e) != 0)
@@ -653,8 +744,16 @@ int main()
         {
             cover();
             map();
-            SDL_RenderCopyEx(gRenderer, gTexture1, NULL, &gRect1, degree1, NULL, SDL_FLIP_NONE);
-            SDL_RenderCopyEx(gRenderer, gTexture2, NULL, &gRect2, degree2, NULL, SDL_FLIP_NONE);
+            if (gtank1.lose == false)
+                SDL_RenderCopyEx(gRenderer, gTexture1, NULL, &gRect1, degree1, NULL, SDL_FLIP_NONE);
+            if (gtank2.lose == false)
+                SDL_RenderCopyEx(gRenderer, gTexture2, NULL, &gRect2, degree2, NULL, SDL_FLIP_NONE);
+            SDL_RenderCopyEx(gRenderer, gTexture1, NULL, &gRect3, 0, NULL, SDL_FLIP_NONE);
+            SDL_RenderCopyEx(gRenderer, gTexture2, NULL, &gRect4, 0, NULL, SDL_FLIP_NONE);
+            lasericon(lasertime);
+            if (laserflag == true)
+                SDL_RenderCopy(gRenderer, glaser, NULL, &laserrect);
+            showscore();
             for (int i = 0; i < 6; i++)
             {
                 if (gball1[i].value == 1)
@@ -662,6 +761,7 @@ int main()
                 if (gball2[i].value == 1)
                     gball2[i].move();
             }
+            lose();
             SDL_RenderPresent(gRenderer);
         } while (ShowTank(e, quit) && !*quit);
     }
