@@ -1,17 +1,15 @@
+
 class tank
 {
   public:
-    float x, y,dx,dy;
+    float x, y, dx, dy;
     int bullet = 0;
     bool lose = false;
-    int ipos,jpos;
-    
+    int ipos, jpos;
+    bool laserflag =false;
     int score = 0;
     char number[4] = "";
-    void touchlaser()
-    {
     
-    }
     char convert(int score, char number[4])
     {
         for (int s = 0; s < 3; s++)
