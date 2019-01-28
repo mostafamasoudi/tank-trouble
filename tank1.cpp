@@ -226,6 +226,14 @@ void TankCollision()
             gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
             gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
         }
+        /* if (gwallv[gtank1.ipos + 1][gtank1.jpos].flag == 1 && gwallv[gtank1.ipos ][gtank1.jpos].flag == 0 && int(gtank1.x + 18 - 6)-5 % 100 > 93 && int(gtank1.y - 6) % 100 > 80)
+        {
+            gtank1.dx = 0.004* cos(-degree1 * 3.14 / 180);
+        }
+        if (gwallv[gtank1.ipos][gtank1.jpos].flag == 0 && gwallv[gtank1.ipos-1][gtank1.jpos].flag==1&&int(gtank1.x-6)%100>75&&int (gtank1.y-6)%100<18)
+        {
+            gtank1.dx = 0.004 * cos(-degree1 * 3.14 / 180);
+        }*/
 
         gtank1.x += gtank1.dx;
         gtank1.y -= gtank1.dy;
@@ -262,7 +270,7 @@ void TankCollision()
                 gtank1.dx = 0;
                 base = true;
             }
-            if (gwallh[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.y + 18 - 6 ) % 100 > 98)
+            if (gwallh[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.y + 18 - 6) % 100 > 98)
             {
                 if (base == true)
                 {
@@ -278,7 +286,7 @@ void TankCollision()
         }
         else if (gtank1.ipos == 5)
         {
-            if (int(gtank1.y + 18 - 6-1 ) % 100 > 98)
+            if (int(gtank1.y + 18 - 6 - 1) % 100 > 98)
             {
                 gtank1.dy = 0;
                 gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
@@ -339,7 +347,7 @@ void TankCollision()
                 gtank1.dx = 0;
                 base = true;
             }
-            if (int(gtank1.y + 18 - 6-1) % 100 > 98)
+            if (int(gtank1.y + 18 - 6 - 1) % 100 > 98)
             {
                 if (base == true)
                 {
@@ -377,7 +385,7 @@ void TankCollision()
         }
         else if (gtank1.ipos == 5)
         {
-            if (int(gtank1.y + 18 - 6-1) % 100 > 98)
+            if (int(gtank1.y + 18 - 6 - 1) % 100 > 98)
             {
                 gtank1.dy = 0;
                 gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
@@ -528,19 +536,435 @@ void TankCollision()
         gtank1.y -= gtank1.dy;
     }
 }
+void TankCollision1()
+{
+    bool base = false;
+    if (degree1 >= 90)
+    {
+        if (gtank1.jpos == 8 && gtank1.ipos == 0)
+        {
+            if (int(gtank1.x + 18 - 6 - 1) % 100 > 98)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (int(gtank1.y - 18 - 6) % 100 < 1)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.jpos == 8)
+        {
+            if (int(gtank1.x + 18 - 6 - 1) % 100 > 98)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos - 1][gtank1.jpos].flag == 1 && int(gtank1.y - 18 - 6) % 100 < 4)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.ipos == 0)
+        {
+            if (int(gtank1.y - 18 - 6) % 100 < 1)
+            {
+                gtank1.dy = 0;
+                gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                base = true;
+            }
+            if (gwallv[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.x + 18 - 6) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dx = 0;
+                }
+                else
+                {
+                    gtank1.dx = 0;
+                    gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else
+        {
+            if (gwallv[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.x + 18 - 6) % 100 > 98)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos - 1][gtank1.jpos].flag == 1 && int(gtank1.y - 18 - 6) % 100 < 4)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        if (base == false)
+        {
+            gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+            gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+        }
+        /* if (gwallv[gtank1.ipos + 1][gtank1.jpos].flag == 1 && gwallv[gtank1.ipos ][gtank1.jpos].flag == 0 && int(gtank1.x + 18 - 6)-5 % 100 > 93 && int(gtank1.y - 6) % 100 > 80)
+        {
+            gtank1.dx = 0.004* cos(-degree1 * 3.14 / 180);
+        }
+        if (gwallv[gtank1.ipos][gtank1.jpos].flag == 0 && gwallv[gtank1.ipos-1][gtank1.jpos].flag==1&&int(gtank1.x-6)%100>75&&int (gtank1.y-6)%100<18)
+        {
+            gtank1.dx = 0.004 * cos(-degree1 * 3.14 / 180);
+        }*/
+
+        gtank1.x -= gtank1.dx;
+        gtank1.y += gtank1.dy;
+    }
+    else if (degree1 < -90)
+    {
+        if (gtank1.jpos == 8 && gtank1.ipos == 5)
+        {
+            if (int(gtank1.x + 18 - 6 - 1) % 100 > 98)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (int(gtank1.y + 18 - 6 - 1) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.jpos == 8)
+        {
+            if (int(gtank1.x + 18 - 6 - 1) % 100 > 98)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.y + 18 - 6) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.ipos == 5)
+        {
+            if (int(gtank1.y + 18 - 6 - 1) % 100 > 98)
+            {
+                gtank1.dy = 0;
+                gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                base = true;
+            }
+            if (gwallv[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.x + 18 - 6) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dx = 0;
+                }
+                else
+                {
+                    gtank1.dx = 0;
+                    gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else
+        {
+            if (gwallv[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.x + 18 - 6) % 100 > 98)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.y + 18 - 6) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        if (base == false)
+        {
+            gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+            gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+        }
+
+        gtank1.x -= gtank1.dx;
+        gtank1.y += gtank1.dy;
+    }
+    else if (degree1 >= -90 && degree1 < 0)
+    {
+        if (gtank1.jpos == 0 && gtank1.ipos == 5)
+        {
+            if (int(gtank1.x - 18 - 6) % 100 < 1)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (int(gtank1.y + 18 - 6 - 1) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.jpos == 0)
+        {
+            if (int(gtank1.x - 18 - 6) % 100 < 1)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.y + 18 - 6) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.ipos == 5)
+        {
+            if (int(gtank1.y + 18 - 6 - 1) % 100 > 98)
+            {
+                gtank1.dy = 0;
+                gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                base = true;
+            }
+            if (gwallv[gtank1.ipos][gtank1.jpos - 1].flag == 1 && int(gtank1.x - 18 - 6 - 1) % 100 < 4)
+            {
+                if (base == true)
+                {
+                    gtank1.dx = 0;
+                }
+                else
+                {
+                    gtank1.dx = 0;
+                    gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else
+        {
+            if (gwallv[gtank1.ipos][gtank1.jpos - 1].flag == 1 && int(gtank1.x - 18 - 6) % 100 < 4)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.y + 18 - 6) % 100 > 98)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        if (base == false)
+        {
+            gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+            gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+        }
+
+        gtank1.x -= gtank1.dx;
+        gtank1.y += gtank1.dy;
+    }
+    else if (degree1 >=0&&degree1<90)
+    {
+        if (gtank1.jpos == 0 && gtank1.ipos == 0)
+        {
+            if (int(gtank1.x - 18 - 6) % 100 < 1)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (int(gtank1.y - 18 - 6) % 100 < 1)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.jpos == 0)
+        {
+            if (int(gtank1.x - 18 - 6) % 100 < 1)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos - 1][gtank1.jpos].flag == 1 && int(gtank1.y - 18 - 6) % 100 < 4)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else if (gtank1.ipos == 0)
+        {
+            if (int(gtank1.y - 18 - 6) % 100 < 1)
+            {
+                gtank1.dy = 0;
+                gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                base = true;
+            }
+            if (gwallv[gtank1.ipos][gtank1.jpos - 1].flag == 1 && int(gtank1.x - 18 - 6 - 1) % 100 < 4)
+            {
+                if (base == true)
+                {
+                    gtank1.dx = 0;
+                }
+                else
+                {
+                    gtank1.dx = 0;
+                    gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        else
+        {
+            if (gwallv[gtank1.ipos][gtank1.jpos - 1].flag == 1 && int(gtank1.x - 18 - 6) % 100 < 4)
+            {
+                gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+                gtank1.dx = 0;
+                base = true;
+            }
+            if (gwallh[gtank1.ipos - 1][gtank1.jpos].flag == 1 && int(gtank1.y - 18 - 6) % 100 < 4)
+            {
+                if (base == true)
+                {
+                    gtank1.dy = 0;
+                }
+                else
+                {
+                    gtank1.dy = 0;
+                    gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+                    base = true;
+                }
+            }
+        }
+        if (base == false)
+        {
+            gtank1.dy = 0.1 * sin(-degree1 * 3.14 / 180);
+            gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
+        }
+
+        gtank1.x -= gtank1.dx;
+        gtank1.y += gtank1.dy;
+    }
+}
 
 bool ShowTank(SDL_Event e, bool *quit)
 {
+    float a,b,c,d;
+    double f;
+    int k,t;
     gtank1.ipos = (gtank1.y - 6) / 100;
     gtank1.jpos = (gtank1.x - 6) / 100;
     gtank2.ipos = (gtank2.y - 6) / 100;
-    gtank2.jpos = (gtank2.y - 6) / 100;
+    gtank2.jpos = (gtank2.x - 6) / 100;
 
     SDL_PollEvent(&e);
     if (state[SDL_SCANCODE_LEFT])
         degree1 -= 0.2;
     if (state[SDL_SCANCODE_RIGHT])
         degree1 += 0.2;
+    if (state[SDL_SCANCODE_A])
+        degree2 -= 0.2;
+    if (state[SDL_SCANCODE_D])
+        degree2 += 0.2;
+
     if (degree1 > 180)
         degree1 = -180;
     if (degree1 < -180)
@@ -556,67 +980,59 @@ bool ShowTank(SDL_Event e, bool *quit)
     }
     if (state[SDL_SCANCODE_DOWN])
     {
-        if (degree1 > -90 && degree1 < 90)
-        {
-            if (gtank1.jpos == 0)
-            {
-                if (int(gtank1.x - 18 - 6) % 100 < 1)
-                    gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
-                else
-                {
-                    gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
-                    gtank1.x -= 0.1 * cos(-degree1 * 3.14 / 180);
-                }
-            }
-            else if ((gwallv[gtank1.ipos][gtank1.jpos - 1].flag == 1 && int(gtank1.x - 18 - 6) % 100 < 4))
-            {
-                gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
-            }
-            else
-            {
-                gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
-                gtank1.x -= 0.1 * cos(-degree1 * 3.14 / 180);
-            }
-        }
-        else
-        {
-            if (gtank1.jpos == 8)
-            {
-                if (int(gtank1.x + 18 - 6 - 1) % 100 > 98)
-                {
-                    gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
-                }
-                else
-                {
-
-                    gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
-                    gtank1.x -= 0.1 * cos(-degree1 * 3.14 / 180);
-                }
-            }
-            else if (gwallv[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.x + 18 - 6) % 100 > 98)
-            {
-                gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
-            }
-            else
-            {
-                gtank1.y += 0.1 * sin(-degree1 * 3.14 / 180);
-                gtank1.x -= 0.1 * cos(-degree1 * 3.14 / 180);
-            }
-        }
+        TankCollision1();
     }
-    if (state[SDL_SCANCODE_A])
-        degree2 -= 0.2;
-    if (state[SDL_SCANCODE_D])
-        degree2 += 0.2;
+  
     if (state[SDL_SCANCODE_W])
     {
-        gtank2.y -= 0.1 * sin(-degree2 * 3.14 / 180);
-        gtank2.x += 0.1 * cos(-degree2 * 3.14 / 180);
+        f=degree1;
+        k=gtank1.ipos;
+        t=gtank1.jpos;
+        a = gtank1.x;
+        b = gtank1.y;
+       
+        degree1 = degree2;
+        gtank1.x = gtank2.x;
+        gtank1.y = gtank2.y;
+      
+        gtank1.ipos=gtank2.ipos;
+        gtank1.jpos=gtank2.jpos;
+        TankCollision();
+        degree2=degree1;
+        gtank2.x = gtank1.x;
+        gtank2.y = gtank1.y;
+      
+        gtank1.x = a;
+        gtank1.y = b;
+        degree1 = f;
+        gtank2.ipos=gtank1.ipos;
+        gtank2.jpos=gtank1.jpos;
+        gtank1.ipos=k;
+        gtank1.jpos=t;
     }
     if (state[SDL_SCANCODE_S])
     {
-        gtank2.y += 0.1 * sin(-degree2 * 3.14 / 180);
-        gtank2.x -= 0.1 * cos(-degree2 * 3.14 / 180);
+        f = degree1;
+        k = gtank1.ipos;
+        t = gtank1.jpos;
+        a = gtank1.x;
+        b = gtank1.y;
+        degree1 = degree2;
+        gtank1.x = gtank2.x;
+        gtank1.y = gtank2.y;
+        gtank1.ipos = gtank2.ipos;
+        gtank1.jpos = gtank2.jpos;
+        TankCollision1();
+        degree2 = degree1;
+        gtank2.x = gtank1.x;
+        gtank2.y = gtank1.y;
+        gtank1.x = a;
+        gtank1.y = b;
+        degree1 = f;
+        gtank2.ipos = gtank1.ipos;
+        gtank2.jpos = gtank1.jpos;
+        gtank1.ipos = k;
+        gtank1.jpos = t;
     }
     if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_KP_0)
     {
@@ -655,7 +1071,7 @@ bool ShowTank(SDL_Event e, bool *quit)
 void lasericon(Uint32 lasertime)
 {
 
-    if (SDL_GetTicks() >= 3000 + lasertime && laserflag==false)
+    if (SDL_GetTicks() >= 3000 + lasertime && laserflag == false)
     {
         laserflag = true;
         laserrect = {(rand() % 9) * 100 + 45, (rand() % 6) * 100 + 45, 25, 25};
