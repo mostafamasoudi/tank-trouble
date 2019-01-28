@@ -10,6 +10,7 @@
 #include <cmath>
 #include "tank.h"
 #include "ball.h"
+#include "laser.h"
 using namespace std;
 const int SCREEN_WIDTH = 1012;
 const int SCREEN_HEIGHT = 612;
@@ -21,17 +22,14 @@ SDL_Texture *gTexture2 = NULL;
 SDL_Texture *gTexture22 = NULL;
 SDL_Texture *glaser = NULL;
 SDL_Texture *gMissile = NULL;
-SDL_Rect gRect1 = {1, 1, 1, 1};
-SDL_Rect gRect2 = {1, 1, 1, 1};
+SDL_Rect gRect2;
 SDL_Rect gRect3 = {935, 35, 50, 50};
 SDL_Rect gRect4 = {935, 500, 50, 50};
 SDL_Rect gRect33 = {945, 130, 40, 40};
 SDL_Rect gRect44 = {945, 420, 40, 40};
 SDL_Rect missilerect = {1, 1, 1, 1};
-SDL_Rect laserrect = {1, 1, 1, 1};
-double degree1 = 0;
-double degree2 = 0;
-bool laserflag = false;
+SDL_Rect laserrect;
+SDL_Rect gRect1 = {1, 1, 1, 1};
 SDL_Event e;
 TTF_Font *font = NULL;
 SDL_Color color = {200, 100, 255};
@@ -262,7 +260,7 @@ void TankCollision()
                 gtank1.dx = 0;
                 base = true;
             }
-            if (gwallh[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.y + 18 - 6 ) % 100 > 98)
+            if (gwallh[gtank1.ipos][gtank1.jpos].flag == 1 && int(gtank1.y + 18 - 6) % 100 > 98)
             {
                 if (base == true)
                 {
@@ -278,7 +276,7 @@ void TankCollision()
         }
         else if (gtank1.ipos == 5)
         {
-            if (int(gtank1.y + 18 - 6-1 ) % 100 > 98)
+            if (int(gtank1.y + 18 - 6 - 1) % 100 > 98)
             {
                 gtank1.dy = 0;
                 gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
@@ -339,7 +337,7 @@ void TankCollision()
                 gtank1.dx = 0;
                 base = true;
             }
-            if (int(gtank1.y + 18 - 6-1) % 100 > 98)
+            if (int(gtank1.y + 18 - 6 - 1) % 100 > 98)
             {
                 if (base == true)
                 {
@@ -377,7 +375,7 @@ void TankCollision()
         }
         else if (gtank1.ipos == 5)
         {
-            if (int(gtank1.y + 18 - 6-1) % 100 > 98)
+            if (int(gtank1.y + 18 - 6 - 1) % 100 > 98)
             {
                 gtank1.dy = 0;
                 gtank1.dx = 0.1 * cos(-degree1 * 3.14 / 180);
@@ -655,7 +653,7 @@ bool ShowTank(SDL_Event e, bool *quit)
 void lasericon(Uint32 lasertime)
 {
 
-    if (SDL_GetTicks() >= 3000 + lasertime && laserflag==false)
+    if (SDL_GetTicks() >= 12000 + lasertime && laserflag == false)
     {
         laserflag = true;
         laserrect = {(rand() % 9) * 100 + 45, (rand() % 6) * 100 + 45, 25, 25};
@@ -671,7 +669,7 @@ void lose()
     if (gtank1.lose == true || gtank2.lose == true)
     {
         currentTime = SDL_GetTicks();
-        if (currentTime - lastTime > 6000)
+        if (SDL_GetTicks() > 5000 + lastTime)
         {
             if (gtank1.lose == false)
             {
@@ -703,10 +701,27 @@ void lose()
                 gball2[i].value = 0;
             }
             gtank1.bullet = 0;
+            gtank1.laserflag = false;
             gtank2.bullet = 0;
+            gtank2.laserflag = false;
             currentTime = 0;
-            lastTime = 0;
+            lastTime = SDL_GetTicks();
         }
+    }
+}
+void touchlaser()
+{
+    if (SDL_HasIntersection(&laserrect, &gRect1) == true)
+    {
+        gtank1.laserflag = true;
+        laserflag = false;
+        lasertime = SDL_GetTicks();
+    }
+    else if (SDL_HasIntersection(&laserrect, &gRect2) == true)
+    {
+        gtank2.laserflag = true;
+        laserflag = false;
+        lasertime = SDL_GetTicks();
     }
 }
 int main()
@@ -718,7 +733,6 @@ int main()
     bool *quit = new bool;
     *quit = false;
     InitMap();
-    Uint32 lasertime = 0;
     while (!*quit)
     {
         while (SDL_PollEvent(&e) != 0)
@@ -738,10 +752,12 @@ int main()
                 SDL_RenderCopyEx(gRenderer, gTexture2, NULL, &gRect2, degree2, NULL, SDL_FLIP_NONE);
             SDL_RenderCopyEx(gRenderer, gTexture1, NULL, &gRect3, 0, NULL, SDL_FLIP_NONE);
             SDL_RenderCopyEx(gRenderer, gTexture2, NULL, &gRect4, 0, NULL, SDL_FLIP_NONE);
-            lasericon(lasertime);
             if (laserflag == true)
                 SDL_RenderCopy(gRenderer, glaser, NULL, &laserrect);
             showscore();
+            lasericon(lasertime);
+            touchlaser();
+            tanklaser.drawlaser();
             for (int i = 0; i < 6; i++)
             {
                 if (gball1[i].value == 1)

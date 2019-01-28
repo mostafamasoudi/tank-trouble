@@ -98,4 +98,4 @@ class ball
         }
     }
 
-} gball1[6], gball2[6], wallbreaker[2];
+} gball1[6], gball2[6];
